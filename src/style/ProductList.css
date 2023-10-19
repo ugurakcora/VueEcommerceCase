@@ -1,0 +1,28 @@
+.product{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.product_item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 200px;
+}
+
+.product_item img{
+  width: 100px;
+  height: 100px;
+}
+
+.product_item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: #000;
+}
