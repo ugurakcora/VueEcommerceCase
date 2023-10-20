@@ -45,15 +45,37 @@ export default {
       .catch((error) => {
         console.error('Ürün detayını alırken hata oluştu:', error);
       });
+
+    // Eğer ürün daha önce sepete eklenmişse, bu ürünün miktarını güncelle
+    const existingCartItem = this.$store.state.cart.find(item => item.id === productId);
+    if (existingCartItem) {
+      this.product.quantity = existingCartItem.quantity;
+    }
   },
   methods: {
     addToCart() {
       if (this.product && this.product.stock > 0 && this.product.quantity > 0) {
-        for (let i = 0; i < this.product.quantity; i++) {
-          this.$root.$emit('addToCart', this.product);
-          this.product.stock -= 1;
+        // Local storage'dan sepet içeriğini alın
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Ürünün sepette olup olmadığını kontrol edin
+        const existingItemIndex = cart.findIndex(item => item.id === this.product.id);
+
+        if (existingItemIndex !== -1) {
+          // Eğer ürün zaten sepetteyse, miktarını artırın
+          cart[existingItemIndex].quantity += this.product.quantity;
+        } else {
+          // Eğer ürün daha önce eklenmemişse, yeni bir öğe olarak ekleyin
+          const newItem = { ...this.product };
+          cart.push(newItem);
         }
-        this.product.quantity = 1; // Eklenen ürün sayısını sıfırla
+
+        // Sepet içeriğini local storage'a kaydedin
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Ürün stok miktarını düşürün
+        this.product.stock -= this.product.quantity;
+        this.product.quantity = 1;
       }
     },
     decrementQuantity() {

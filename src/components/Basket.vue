@@ -8,9 +8,12 @@
         <button @click="decrementQuantity(index)">Azalt</button>
       </li>
     </ul>
+
+    <div>
+      <strong>Toplam Tutar: {{ totalAmount }} TL</strong>
+    </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -19,33 +22,37 @@ export default {
       cart: [], // Sepetteki ürünleri saklamak için dizi
     };
   },
-  methods: {
-    addToCart() {
-      if (this.product.stock > 0) {
-        const newItem = {
-          title: this.product.title,
-          quantity: 1, // Başlangıçta bir adet eklenir
-          price: this.product.price, // Ürünün fiyatını kaydet
-        };
-
-        // Sepete yeni öğeyi ekleyin
-        this.cart.push(newItem);
-
-        this.product.stock -= 1; // Stok miktarını azalt
+  computed: {
+    totalAmount() {
+      let total = 0;
+      for (const item of this.cart) {
+        total += item.price * item.quantity;
       }
-    },
-
-    incrementQuantity(index) {
-      this.cart[index].quantity++;
-    },
-
-    decrementQuantity(index) {
-      if (this.cart[index].quantity > 0) {
-        this.cart[index].quantity--;
-      }
+      return total;
     },
   },
-
-
+  created() {
+    // Local storage'dan sepet içeriğini alın
+    const cartItems = JSON.parse(localStorage.getItem('cart'));
+    if (cartItems) {
+      this.cart = cartItems;
+    }
+  },
+  methods: {
+    incrementQuantity(index) {
+      this.cart[index].quantity++;
+      this.saveCartToLocalStorage();
+    },
+    decrementQuantity(index) {
+      if (this.cart[index].quantity > 1) {
+        this.cart[index].quantity--;
+      }
+      this.saveCartToLocalStorage();
+    },
+    saveCartToLocalStorage() {
+      // Sepet içeriğini local storage'a kaydedin
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+  },
 };
 </script>
