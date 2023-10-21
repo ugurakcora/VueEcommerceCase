@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Basket></Basket>
     <h1>Ürün Detayı</h1>
     <div class="product-detail">
       <div class="product-detail-info" v-if="product">
@@ -24,11 +23,9 @@
 
 <script>
 import axios from 'axios';
-import Basket from './Basket.vue';
 
 export default {
   components: {
-    Basket,
   },
   data() {
     return {

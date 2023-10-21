@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Basket></Basket>
     <h1>Ürün Listesi</h1>
     <div class="product">
       <div class="product_item" v-for="product in products" :key="product.id">
@@ -14,11 +13,9 @@
 
 <script>
 import axios from 'axios';
-import Basket from './Basket.vue';
 
 export default {
   components: {
-    Basket,
   },
   data() {
     return {
