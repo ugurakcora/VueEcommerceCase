@@ -24,12 +24,16 @@ export default createStore({
       const foundItem = state.cart.find((cartItem) => cartItem.id === item.id);
       if (foundItem) {
         foundItem.quantity++;
+        // Sepet içeriğini local storage'a kaydet
+        localStorage.setItem("cart", JSON.stringify(state.cart));
       }
     },
     decrementCartItem(state, item) {
       const foundItem = state.cart.find((cartItem) => cartItem.id === item.id);
       if (foundItem && foundItem.quantity > 1) {
         foundItem.quantity--;
+        // Sepet içeriğini local storage'a kaydet
+        localStorage.setItem("cart", JSON.stringify(state.cart));
       }
     },
   },
