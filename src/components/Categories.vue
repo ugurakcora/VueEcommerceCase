@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div v-for="category in categories" :key="category.id">
-      <span>
-        <button @click="filterProductsByCategory(category)" :class="{ active: selectedCategory === category }">
-          {{ category }}
-        </button>
-      </span>
-    </div>
     <button @click="resetFilter">Tüm Kategorileri Göster</button>
+    <span v-for="category in categories" :key="category.id">
+      <button @click="filterProductsByCategory(category)" :class="{ active: selectedCategory === category }">
+        {{ category }}
+      </button>
+    </span>
   </div>
 </template>
 
