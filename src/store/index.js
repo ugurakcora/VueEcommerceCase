@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    // Uygulama durumunu saklamak için nesne
     cart: [], // Sepetteki ürünleri saklamak için dizi
   },
   mutations: {
