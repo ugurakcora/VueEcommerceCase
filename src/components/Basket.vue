@@ -1,16 +1,23 @@
 <template>
-  <div>
-    <h2>Sepet</h2>
-    <ul>
-      <li v-for="(item, index) in cart" :key="index">
-        {{ item.title }} - {{ item.quantity }} adet - Fiyat: {{ item.price * item.quantity }} TL
-        <button @click="incrementQuantity(index)">Arttır</button>
-        <button @click="decrementQuantity(index)">Azalt</button>
+  <div class="cart-container">
+    <h2 class="cart-title">Sepet</h2>
+    <ul class="cart-list">
+      <li v-for="(item, index) in cart" :key="index" class="cart-item">
+        <div class="cart-item-details">
+          <span class="item-title">{{ item.title }}</span>
+          <span class="item-quantity"> {{ item.quantity }} adet</span>
+        </div>
+        <div class="cart-item-actions">
+          <span class="item-price">{{ item.price * item.quantity }} ₺</span>
+          <button @click="incrementQuantity(index)" class="action-button">Arttır</button>
+          <button @click="decrementQuantity(index)" class="action-button">Azalt</button>
+          <button @click="removeFromCart(index)" class="action-button remove-button">Kaldır</button>
+        </div>
       </li>
     </ul>
 
-    <div>
-      <strong>Toplam Tutar: {{ totalAmount }} TL</strong>
+    <div class="total-amount">
+      <strong>Toplam Tutar: {{ totalAmount }} ₺</strong>
     </div>
   </div>
 </template>
@@ -46,7 +53,15 @@ export default {
     decrementQuantity(index) {
       if (this.cart[index].quantity > 1) {
         this.cart[index].quantity--;
+      } else {
+        // Eğer ürünün miktarı 1'den azsa, ürünü sepetten kaldır
+        this.cart.splice(index, 1);
       }
+      this.saveCartToLocalStorage();
+    },
+    removeFromCart(index) {
+      // Sepetten ürünü kaldır
+      this.cart.splice(index, 1);
       this.saveCartToLocalStorage();
     },
     saveCartToLocalStorage() {
@@ -56,3 +71,6 @@ export default {
   },
 };
 </script>
+
+<style src="../style/Basket.css" />
+

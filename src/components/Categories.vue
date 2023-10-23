@@ -1,8 +1,9 @@
 <template>
-  <div class="filter">
-    <button @click="resetFilter">Tüm Kategorileri Göster</button>
+  <div>
+    <button @click="resetFilter" class="reset-button">Tüm Kategorileri Göster</button>
     <span v-for="category in categories" :key="category.id">
-      <button @click="filterProductsByCategory(category)" :class="{ active: selectedCategory === category }">
+      <button @click="filterProductsByCategory(category)" :class="{ active: selectedCategory === category }"
+        class="category-button">
         {{ formatCategoryName(category) }}
       </button>
     </span>
@@ -22,7 +23,7 @@ export default {
   created() {
     axios.get('https://dummyjson.com/products/categories')
       .then((response) => {
-        this.categories = response.data.map(category => this.formatCategoryName(category));
+        this.categories = response.data;
       })
       .catch((error) => {
         console.error('Kategorileri alırken hata oluştu:', error);
@@ -30,7 +31,6 @@ export default {
   },
   methods: {
     formatCategoryName(category) {
-      // "-" işaretini kaldır ve kelimelerin ilk harfini büyük harfle yaz
       return category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     },
     filterProductsByCategory(category) {
@@ -45,9 +45,4 @@ export default {
 };
 </script>
 
-<style>
-.active {
-  background-color: #3490dc;
-  color: #fff;
-}
-</style>
+<style src="../style/Categories.css" />

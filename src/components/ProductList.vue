@@ -1,7 +1,8 @@
 <template>
   <div>
-    <Categories @filter-by-category="filterProductsByCategory" />
+    <Categories :categories="categories" @filter-by-category="filterProductsByCategory" />
     <h1>Ürün Listesi</h1>
+    <input v-model="searchQuery" @input="searchProducts" placeholder="Ürün Ara" />
     <div class="product">
       <div v-if="filteredProducts.length > 0" class="product_item" v-for="product in filteredProducts" :key="product.id">
         <a class="product_item-wrapper" :href="`/product/${product.id}`">
@@ -10,7 +11,7 @@
         </a>
       </div>
       <div v-else>
-        <p>Seçilen kategoriye ait ürün bulunmamaktadır.</p>
+        <p>Seçilen kategoriye veya arama sorgusuna ait ürün bulunmamaktadır.</p>
       </div>
     </div>
   </div>
@@ -29,19 +30,32 @@ export default {
       products: [],
       categories: [],
       selectedCategory: null,
+      searchQuery: '', // Arama sorgusu
     };
   },
   computed: {
     filteredProducts() {
-      if (!this.selectedCategory) {
-        return this.products;
+      let filtered = this.products;
+
+      if (this.selectedCategory) {
+        filtered = filtered.filter(product => product.category === this.selectedCategory);
       }
-      return this.products.filter(product => product.category === this.selectedCategory);
+
+      if (this.searchQuery) {
+        const query = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(product => product.title.toLowerCase().includes(query));
+      }
+
+      return filtered;
     },
   },
   methods: {
     filterProductsByCategory(category) {
       this.selectedCategory = category;
+    },
+    searchProducts() {
+      // Arama sorgusuna göre ürünleri filtrele
+      // Filtreleme işlemi yukarıda computed özelliğinde yapılıyor.
     },
   },
   created() {
@@ -55,5 +69,6 @@ export default {
   },
 };
 </script>
+
 
 <style src="../style/ProductList.css" />

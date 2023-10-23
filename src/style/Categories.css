@@ -1,0 +1,27 @@
+.reset-button,
+.category-button {
+  padding: 10px 20px;
+  background-color: #3490dc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .reset-button,
+  .category-button {
+    padding: 8px 16px;
+  }
+}
+
+.active {
+  background-color: #ff5733;
+}
+
+.reset-button:hover,
+.category-button:hover {
+  background-color: #26689e;
+}
