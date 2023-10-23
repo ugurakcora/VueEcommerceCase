@@ -66,11 +66,11 @@
 }
 
 .star {
-  font-size: 24px; /* Yıldız simgesinin boyutu */
-  color: #ccc; /* Boş yıldız rengi */
-  margin-right: 5px; /* Yıldızlar arası boşluk */
+  font-size: 24px;
+  color: #ccc;
+  margin-right: 5px;
 }
 
 .star.filled {
-  color: #f8e825; /* Dolu yıldız rengi */
+  color: #f8e825;
 }

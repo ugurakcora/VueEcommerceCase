@@ -18,7 +18,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* Burada genel stil tanımlamalarınızı yapabilirsiniz */
-</style>
