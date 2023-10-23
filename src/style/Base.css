@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap');
+
 #app{
   width: 100%;
 }
@@ -10,6 +12,7 @@
 }
 
 :root {
+  font-family: 'Playpen Sans', cursive;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
