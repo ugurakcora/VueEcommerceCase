@@ -4,11 +4,14 @@
     <ul class="cart-list">
       <li v-for="(item, index) in cart" :key="index" class="cart-item">
         <div class="cart-item-details">
-          <span class="item-title">{{ item.title }}</span>
-          <span class="item-quantity"> {{ item.quantity }} adet</span>
+          <img :src="item.thumbnail" :alt="item.title" class="item-image" />
+          <div class="item-description">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-quantity"> {{ item.quantity }} adet</span>
+          </div>
         </div>
         <div class="cart-item-actions">
-          <span class="item-price">{{ item.price * item.quantity }} ₺</span>
+          <span class="item-price">{{ $formatPrice( item.price * item.quantity )}}</span>
           <button @click="incrementQuantity(index)" class="action-button">Arttır</button>
           <button @click="decrementQuantity(index)" class="action-button">Azalt</button>
           <button @click="removeFromCart(index)" class="action-button remove-button">Kaldır</button>
@@ -17,7 +20,7 @@
     </ul>
 
     <div class="total-amount">
-      <strong>Toplam Tutar: {{ totalAmount }} ₺</strong>
+      <strong>Toplam Tutar: {{ $formatPrice( totalAmount )}}</strong>
     </div>
   </div>
 </template>

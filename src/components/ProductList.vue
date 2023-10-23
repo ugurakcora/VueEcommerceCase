@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <Categories :categories="categories" @filter-by-category="filterProductsByCategory" />
     <h1>Ürün Listesi</h1>
     <input v-model="searchQuery" @input="searchProducts" placeholder="Ürün Ara" />
@@ -8,9 +8,26 @@
         <a class="product_item-wrapper" :href="`/product/${product.id}`">
           <img class="product_item-img" :src="product.images[0]" :alt="product.title" />
           <p class="product_item-title">{{ product.title }}</p>
+          <div class="product_item-details">
+            <div class="product_item-prices">
+              <div class="product_item-price">
+                <del>
+                  {{ $formatPrice(product.price / (1 - (product.discountPercentage / 100))) }}
+                </del>
+              </div>
+              <div class="product_item-price">
+                {{ $formatPrice(product.price) }}
+              </div>
+            </div>
+            <div class="product_item-discount">
+              <span class="product_item-discount-percentage">
+                {{ product.discountPercentage + '% İndirim' }}
+              </span>
+            </div>
+          </div>
         </a>
       </div>
-      <div v-else>
+      <div class="not-found" v-else>
         <p>Seçilen kategoriye veya arama sorgusuna ait ürün bulunmamaktadır.</p>
       </div>
     </div>
@@ -62,6 +79,7 @@ export default {
     axios.get('https://dummyjson.com/products')
       .then((response) => {
         this.products = response.data.products;
+        console.log(response.data.products);
       })
       .catch((error) => {
         console.error('Ürün verilerini alırken hata oluştu:', error);

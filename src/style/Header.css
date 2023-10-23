@@ -2,9 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #646cff;
   color: #fff;
   padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .header-left,
@@ -14,10 +17,17 @@
   cursor: pointer;
 }
 
+.cart-icon {
+  position: relative;
+  margin-right: 20px;
+}
+
 .cart-item-count {
   background-color: #f00;
   color: #fff;
   border-radius: 50%;
   padding: 4px 8px;
-  margin-left: 8px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
 }

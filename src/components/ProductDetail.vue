@@ -8,9 +8,30 @@
         <h2 class="product-title">{{ product.title }}</h2>
         <p class="product-description">{{ product.description }}</p>
         <div class="product-price-stock">
-          <p class="product-price">Fiyat: {{ product.price }} ₺</p>
+          <p class="product-price">
+            Fiyat:
+            <span class="original-price" v-if="product.discountPercentage > 0">
+              <del>
+                {{ $formatPrice(product.price / (1 - (product.discountPercentage / 100))) }}
+              </del>
+            </span>
+              {{ $formatPrice(product.price) }}
+          </p>
+          <p class="product-discount" v-if="product.discountPercentage > 0">
+            İndirim: {{ product.discountPercentage + '%' }}
+          </p>
           <p class="product-stock">Stok: {{ product.stock }}</p>
         </div>
+          <div class="product-rating">
+            <span
+              v-for="i in 5"
+              :key="i"
+              class="star"
+              :class="{ filled: i <= Math.round(product.rating) }"
+            >
+              &#9733;
+            </span>
+          </div>
         <div class="product-quantity" v-if="product.stock > 0">
           <button @click="decrementQuantity">-</button>
           <span class="quantity">{{ product.quantity }}</span>
@@ -20,10 +41,10 @@
           Sepete Ekle
         </button>
       </div>
-
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -40,6 +61,7 @@ export default {
       .get(`https://dummyjson.com/products/${productId}`)
       .then((response) => {
         this.product = response.data;
+        console.log(response.data)
         this.product.quantity = 1; // Adet sayısını başlangıçta 1 olarak ayarla
       })
       .catch((error) => {
