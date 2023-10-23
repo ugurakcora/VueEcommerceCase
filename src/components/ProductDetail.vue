@@ -2,9 +2,15 @@
   <div class="product-detail-container">
     <div class="product-detail">
       <div class="product-detail-info" v-if="product">
-        <div class="product-detail-image" v-if="product">
-          <img :src="product.thumbnail" :alt="product.title" class="product-image" />
-        </div>
+        <carousel :items-to-show="1">
+          <slide v-for="(image, index) in product.images" :key="index">
+            <img :src="image" :alt="product.title" class="product-image" />
+          </slide>
+          <template #addons>
+            <navigation />
+            <pagination />
+          </template>
+        </carousel>
         <h2 class="product-title">{{ product.title }}</h2>
         <p class="product-description">{{ product.description }}</p>
         <div class="product-price-stock">
@@ -48,8 +54,16 @@
 
 <script>
 import axios from 'axios';
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
 export default {
+  components: {
+    Carousel,
+    Slide,
+    Pagination,
+    Navigation,
+  },
   data() {
     return {
       product: null,
