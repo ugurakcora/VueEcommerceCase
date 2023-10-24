@@ -21,23 +21,18 @@
                 {{ $formatPrice(product.price / (1 - (product.discountPercentage / 100))) }}
               </del>
             </span>
-              {{ $formatPrice(product.price) }}
+            {{ $formatPrice(product.price) }}
           </p>
           <p class="product-discount" v-if="product.discountPercentage > 0">
             İndirim: {{ product.discountPercentage + '%' }}
           </p>
           <p class="product-stock">Stok: {{ product.stock }}</p>
         </div>
-          <div class="product-rating">
-            <span
-              v-for="i in 5"
-              :key="i"
-              class="star"
-              :class="{ filled: i <= Math.round(product.rating) }"
-            >
-              &#9733;
-            </span>
-          </div>
+        <div class="product-rating">
+          <span v-for="i in 5" :key="i" class="star" :class="{ filled: i <= Math.round(product.rating) }">
+            &#9733;
+          </span>
+        </div>
         <div class="product-quantity" v-if="product.stock > 0">
           <button @click="decrementQuantity">-</button>
           <span class="quantity">{{ product.quantity }}</span>
@@ -49,8 +44,8 @@
       </div>
     </div>
   </div>
+  <div class="notification" v-if="notification">{{ notification }}</div>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -67,6 +62,7 @@ export default {
   data() {
     return {
       product: null,
+      notification: null, // Bildirim mesajı
     };
   },
   created() {
@@ -75,7 +71,6 @@ export default {
       .get(`https://dummyjson.com/products/${productId}`)
       .then((response) => {
         this.product = response.data;
-        console.log(response.data)
         this.product.quantity = 1; // Adet sayısını başlangıçta 1 olarak ayarla
       })
       .catch((error) => {
@@ -112,6 +107,18 @@ export default {
         // Ürün stok miktarını düşürün
         this.product.stock -= this.product.quantity;
         this.product.quantity = 1;
+
+        // Bildirimi göster
+        this.notification = 'Sepete Eklendi';
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
+      } else {
+        // Ürün eklenemedi bildirimi
+        this.notification = 'Sepete Ürün Eklenemedi';
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
       }
     },
     decrementQuantity() {

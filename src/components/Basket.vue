@@ -2,7 +2,8 @@
   <div class="cart-container">
     <h2 class="cart-title">Sepet</h2>
     <ul class="cart-list">
-      <li v-for="(item, index) in cart" :key="index" class="cart-item">
+      <li class="not-found" v-if="cart.length === 0">Sepetiniz boş.</li>
+      <li v-else v-for="(item, index) in cart" :key="index" class="cart-item">
         <div class="cart-item-details">
           <img :src="item.thumbnail" :alt="item.title" class="item-image" />
           <div class="item-description">
@@ -19,7 +20,7 @@
       </li>
     </ul>
 
-    <div class="total-amount">
+    <div class="total-amount" v-if="cart.length > 0">
       <strong>Toplam Tutar: {{ $formatPrice( totalAmount )}}</strong>
     </div>
   </div>
